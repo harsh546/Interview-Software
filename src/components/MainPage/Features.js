@@ -1,8 +1,13 @@
 import React from 'react'
-
+import * as boo from 'react-bootstrap'
+//import FeatureCard from './FeatureCard'
 const Features = () => {
   return (
-    <div>im  Features</div>
+    <boo.Container style={{backgroundColor:"#A7F2EC", height:"80vh",width:"70vw",display:"flex",margin:"auto",borderRadius:"26px",padding:"20px"}} >
+      {/* <FeatureCard/>
+      <FeatureCard/>
+      <FeatureCard/> */}
+    </boo.Container>
   )
 }
 
