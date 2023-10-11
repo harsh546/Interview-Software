@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Main = () => {
+const Recorder = () => {
   return (
     <div>Main</div>
   )
 }
 
-export default Main
+export default Recorder

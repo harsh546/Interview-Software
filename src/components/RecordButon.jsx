@@ -1,12 +1,9 @@
 import { Button, IconButton } from '@mui/material'
 import React from 'react'
 
-const handleClick=()=>{
-
-}
-const RecordButon = ({component}) => {
+const RecordButon = ({component,height,width}) => {
   return (
-    <div style={{boxShadow:"0px 0px 10px 3px white", width:"50px",height:"50px",border:"black",backgroundColor:"black",
+    <div style={{boxShadow:"0px 0px 10px 3px white", width:width,height:height,border:"black",backgroundColor:"black",
     borderStyle:"solid",borderRadius:"100px",display:"flex",alignItems:"center",justifyContent:"center",margin:"10px 10px 10px 30px"}} >
         {/* <button className='button' style={{backgroundColor:"black",borderStyle:"none"}}>
         {component}
