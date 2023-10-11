@@ -1,19 +1,29 @@
 
+import { useState } from 'react';
 import './App.css';
-import BigGreyBox from './components/BigGreyBox';
-import BigRecordBox from './components/BigRecordBox';
 import LowerNav from './components/LowerNav';
-import RecordButtonGrid from './components/RecordButtonGrid';
-
+import Recorder from './pages/Recorder';
+import Analyzer from './pages/Analyzer';
+import Transcriber from './pages/Transcriber';
 function App() {
+  let output
+  const [page,SetPage]=useState("recorder")
+  /* console.log(page) */
+  const sendDataToParent=(option)=>{
+    /* console.log(option) */
+    SetPage(option)
+  }
+  if(page=="analyzer"){
+  output  = <Analyzer/>
+  } else if(page=="transcriber"){
+    output=<Transcriber/>
+  } else{
+    output=<Recorder/>
+  }
   return (
-    <div style={{backgroundColor:"black"}} className="App">
-    <div style={{display:"flex"}}>
-    <RecordButtonGrid/>
-    <BigRecordBox/>
-    <BigGreyBox/>
-    </div>
-    <LowerNav/>
+    <div style={{backgroundColor:"black"}} className="App" >
+    {output}
+    <LowerNav sendDataToParent={sendDataToParent} />
     </div>
   );
 }

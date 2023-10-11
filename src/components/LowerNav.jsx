@@ -8,9 +8,12 @@ import IconButton from '@mui/material/IconButton';
 import './LowerNav.css'
 
 
-const LowerNav = () => {
+const LowerNav = ({sendDataToParent}) => {
   
-
+/* const handleTranscriber=(page)=>{
+    page='transcriber'
+    console.log("child handle click working")
+} */
  const BoxStyle={
     backgroundColor: "black",
     color:"white",
@@ -26,17 +29,17 @@ const LowerNav = () => {
   return (
     <AppBar position="fixed" sx={{ top: 'auto', bottom: 0,backgroundColor:"black" }}>
     <Toolbar sx={{display:"flex"}}>
-      <IconButton  sx={[{
+      <IconButton onClick={()=>{sendDataToParent("recorder")}}  sx={[{
         '&:hover':BoxStyleHover
       },BoxStyle]} aria-label="open drawer">
        Recorder
       </IconButton>
-      <IconButton  sx={[{
+      <IconButton onClick={()=>{sendDataToParent("transcriber")}}  sx={[{
         '&:hover':BoxStyleHover
       },BoxStyle]}>
         Transcriber
       </IconButton>
-      <IconButton  sx={[{'&:hover':BoxStyleHover},BoxStyle]}>
+      <IconButton onClick={()=>{sendDataToParent("analyzer")}}  sx={[{'&:hover':BoxStyleHover},BoxStyle]}>
        Analyzer
       </IconButton>
     </Toolbar>
