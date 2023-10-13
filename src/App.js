@@ -13,9 +13,9 @@ function App() {
     /* console.log(option) */
     SetPage(option)
   }
-  if(page=="analyzer"){
+  if(page==="analyzer"){
   output  = <Analyzer/>
-  } else if(page=="transcriber"){
+  } else if(page==="transcriber"){
     output=<Transcriber/>
   } else{
     output=<Recorder/>
