@@ -17,7 +17,7 @@ const LowerNav = ({sendDataToParent}) => {
  const BoxStyle={
     backgroundColor: "black",
     color:"white",
-    width:"33vw",
+    width:"30vw",
     borderRadius:"0",
     height:"64px"
 
@@ -27,7 +27,7 @@ const LowerNav = ({sendDataToParent}) => {
     boxShadow:"10px 20px 10px 10px white"
  }
   return (
-    <AppBar position="fixed" sx={{ top: 'auto', bottom: 0,backgroundColor:"black" }}>
+    <AppBar  sx={{ display:"flex", top: 'auto', bottom: 0,backgroundColor:"black" }}>
     <Toolbar sx={{display:"flex"}}>
       <IconButton onClick={()=>{sendDataToParent("recorder")}}  sx={[{
         '&:hover':BoxStyleHover

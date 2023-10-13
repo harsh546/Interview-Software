@@ -6,7 +6,7 @@ import VideoCallIcon from '@mui/icons-material/VideoCall';
 import SaveIcon from '@mui/icons-material/Save';
 const RecordButtonGrid = () => {
   return (
-    <div style={{display:"flex",flexDirection:"column",height:"91vh",justifyContent:"center"}}>
+    <div style={{display:"flex",flexDirection:"column",height:"92vh",justifyContent:"center"}}>
         <IconButon height={"50px"} width={"50px"} component={<PlayArrowIcon sx={{color:"white"}} />} />
         <IconButon height={"50px"} width={"50px"} component={<PauseIcon sx={{color:"white"}} />} />
         <IconButon height={"50px"} width={"50px"} component={<VideoCallIcon sx={{color:"white"}} />} />

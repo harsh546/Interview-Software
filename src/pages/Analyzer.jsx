@@ -4,7 +4,7 @@ import AnalyzeBox from '../components/AnalyzeBox'
 
 const Analyzer = () => {
   return (
-    <div style={{height:"91vh",display:"flex",justifyContent:"space-around",alignItems:"center"}}>
+    <div style={{height:"92vh",display:"flex",justifyContent:"space-around",alignItems:"center"}}>
         <TextBox/>
         <AnalyzeBox/>
     </div>

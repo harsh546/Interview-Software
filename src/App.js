@@ -23,7 +23,7 @@ function App() {
   return (
     <div style={{backgroundColor:"black"}} className="App" >
     {output}
-    <LowerNav sendDataToParent={sendDataToParent} />
+    <LowerNav  sendDataToParent={sendDataToParent}  />
     </div>
   );
 }
