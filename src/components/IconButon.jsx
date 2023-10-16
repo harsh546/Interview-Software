@@ -1,8 +1,7 @@
 import {IconButton } from '@mui/material'
 import React from 'react'
 
-
-
+//renders icon buttons - pass mui icon compnent
 const IconButon = ({component,height,width}) => {
   
   return (

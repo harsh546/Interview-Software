@@ -4,7 +4,9 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import './LowerNav.css'
 
-
+// lower app bar 
+// input props - call back function
+// output - na
 const LowerNav = ({sendDataToParent}) => {
   
 /* const handleTranscriber=(page)=>{

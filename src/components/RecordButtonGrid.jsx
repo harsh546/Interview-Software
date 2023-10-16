@@ -4,6 +4,10 @@ import IconButon from './IconButon';
 import PauseIcon from '@mui/icons-material/Pause';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import SaveIcon from '@mui/icons-material/Save';
+
+// contains icon button for analyze page 
+// input props -NA
+// output - NA
 const RecordButtonGrid = () => {
   return (
     <div style={{display:"flex",flexDirection:"column",height:"92vh",justifyContent:"center"}}>

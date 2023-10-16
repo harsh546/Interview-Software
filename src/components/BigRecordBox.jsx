@@ -1,7 +1,9 @@
 import React from 'react'
 import IconButon from './IconButon';
 import MicIcon from '@mui/icons-material/Mic';
-
+// contains the button for record page- record funtion will be coded here
+// input prop - callback function(yet to be implmented)
+// output - (yet to be determined)
 const BigRecordBox = () => {
   return (
     <div style={{display:"flex" ,width:"90vw",alignItems:"center",justifyContent:"center",flexDirection:"column" }} >

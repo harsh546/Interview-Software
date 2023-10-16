@@ -1,6 +1,9 @@
 import React from 'react'
 import TextButton from './TextButton'
-
+ 
+// This component will render analyzed text like word cloud etc
+// input prop - none
+// output- analyzed word cloud , summary,semantic
 const AnalyzeBox = () => {
   return (
     <div style={{borderStyle:"solid",width:"616px",height:"392px",display:"flex"}}>

@@ -1,6 +1,7 @@
 import {  IconButton } from '@mui/material'
 import React from 'react'
 
+// same as Iconbutton but also has upload function .|accept prop not working as intended
 const uploadVideo=()=>{
   document.getElementById("selectVideo").click()
 }
