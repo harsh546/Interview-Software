@@ -5,6 +5,7 @@ import { IconButton } from '@mui/material';
 import PauseIcon from '@mui/icons-material/Pause';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import SaveIcon from '@mui/icons-material/Save';
+import StopIcon from '@mui/icons-material/Stop';
 
 // contains icon button for analyze page 
 // input props -NA
@@ -14,10 +15,19 @@ const divStyle={
     borderStyle:"solid",borderRadius:"100px",display:"flex",alignItems:"center",justifyContent:"center",margin:"10px 10px 10px 30px"
 }
 
-const RecordButtonGrid = ({isRecording,isPaused,toggle,stop,downloadAudio}) => {
+const RecordButtonGrid = ({isRecording,isPaused,toggle,stop,downloadAudio,recordingBlob}) => {
 
   
-  
+  let showSave
+  if (recordingBlob==undefined) {
+    showSave=<></>
+  }else{
+    showSave= <div style={divStyle}> 
+                <IconButton  onClick={()=>{downloadAudio()}} > 
+                  <SaveIcon  sx={{color:"white",height:"50px",width:"50px"}} />
+                </IconButton>
+              </div>
+  }
   let resumeOrPause
   if (isRecording) {  
     if (isPaused) {
@@ -44,14 +54,20 @@ const RecordButtonGrid = ({isRecording,isPaused,toggle,stop,downloadAudio}) => {
         {resumeOrPause}
         <div style={divStyle}> 
           <IconButton onClick={()=>{stop()}} > 
-          <VideoCallIcon  sx={{color:"white",height:"50px",width:"50px"}} />
+          <StopIcon  sx={{color:"white",height:"50px",width:"50px"}} />
           </IconButton>
         </div>
         <div style={divStyle}> 
-          <IconButton onClick={()=>{downloadAudio()}} > 
-          <SaveIcon  sx={{color:"white",height:"50px",width:"50px"}} />
+          <IconButton onClick={()=>{}} > 
+          <VideoCallIcon  sx={{color:"white",height:"50px",width:"50px"}} />
           </IconButton>
         </div>
+        {showSave}
+        {/* <div style={divStyle}> 
+          <IconButton  onClick={()=>{downloadAudio()}} > 
+          <SaveIcon  sx={{color:"white",height:"50px",width:"50px"}} />
+          </IconButton>
+        </div> */}
     </div>
   )
 }

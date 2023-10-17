@@ -20,7 +20,7 @@ const Recorder = () => {
   }
   const stop=()=>{
     stopRecording()
-    addAudioElement(recordingBlob)
+    //addAudioElement(recordingBlob)
   }
 
   const addAudioElement = (blob) => {
@@ -44,11 +44,12 @@ const Recorder = () => {
   }
 
   useEffect(()=>{
-
+    if (!recordingBlob) return;
+    addAudioElement(recordingBlob)
   },[recordingBlob])
   return (
     <div style={{display:"flex"}}>
-    <RecordButtonGrid isRecording={isRecording} isPaused={isPaused} toggle={toggle} stop={stop} downloadAudio={downloadAudio} />
+    <RecordButtonGrid isRecording={isRecording} isPaused={isPaused} toggle={toggle} stop={stop} downloadAudio={downloadAudio} recordingBlob={recordingBlob} />
     <BigRecordBox startRecording={startRecording} isRecording={isRecording} isPaused={isPaused} />
     {/* <button onClick={()=>{console.log(recordingBlob)}} >check if recordingBlob Present  </button>
     <button onClick={()=>{console.log(isPaused)}} >check if paused </button> */}
