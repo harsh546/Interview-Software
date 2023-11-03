@@ -10,6 +10,23 @@ const Recorder = () => {
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
 
+  const handleDataAvailable = useCallback(
+    ({ data }) => {
+      console.log("data",data)
+      if (data.size > 0) {
+        setRecordedChunks((prev) => prev.concat(data));
+      }
+    }
+    ,
+    [setRecordedChunks]
+  );
+
+  const handleStopCaptureClick = useCallback(() => {
+    //mediaRecorderRef.current.requestData()
+    mediaRecorderRef.current.stop();
+    setCapturing(false);
+  }, [mediaRecorderRef, setCapturing]);
+
   const handleStartCaptureClick = useCallback(() => {
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
@@ -19,40 +36,35 @@ const Recorder = () => {
       "dataavailable",
       handleDataAvailable
     );
+     mediaRecorderRef.current.addEventListener(
+      'stop',
+      handleStopCaptureClick
+    );
     mediaRecorderRef.current.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef]);
+  }, [webcamRef, setCapturing, mediaRecorderRef,handleDataAvailable,handleStopCaptureClick]);
 
-  const handleDataAvailable = useCallback(
-    ({ data }) => {
-      console.log("data",data)
-      if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-      }
-    },
-    [setRecordedChunks]
-  );
-
-  const handleStopCaptureClick = useCallback(() => {
-    //mediaRecorderRef.current.requestData()
-    mediaRecorderRef.current.stop();
-    setCapturing(false);
-    addVideoElement()
-  }, [mediaRecorderRef, webcamRef, setCapturing]);
+  
 
   const addVideoElement = useCallback(()=>{
-    console.log("workinggg")
-    console.log(recordedChunks)
+    console.log("cliccked video add")
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm"
       });
       const url = URL.createObjectURL(blob);
       const video = document.createElement("video")
-      video.src=url;
+      //video.src=url;
+      const sour=document.createElement("source")
+      sour.src=url
+      video.appendChild(sour)
       video.controls=true;
       document.getElementById("audioList").appendChild(video);
   }},[recordedChunks])
 
+
+ 
+
+  
   const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
@@ -119,14 +131,17 @@ const Recorder = () => {
   }
 
   useEffect(()=>{
+    if(recordedChunks.length>0) 
+    {
+      console.log(recordedChunks.length,"recorded chunks length inside useeffect")
+      addVideoElement()
+    }
     if (!recordingBlob){ return }
     else {addAudioElement(recordingBlob)}
-    /* if(!recordedChunks) return
-    addVideoElement() */
-    console.log("chunks",recordedChunks)
-  },[recordingBlob,recordedChunks])
+  },[recordingBlob,mediaRecorderRef,addVideoElement,recordedChunks.length])
   return (
     <div style={{display:"flex"}}>
+      <button id='add' style={{display:'none'}} onClick={()=>addVideoElement()}>addddddddd</button>
     <RecordButtonGrid isRecording={isRecording} isPaused={isPaused} toggle={toggle} stop={stop} downloadAudio={downloadAudio} recordingBlob={recordingBlob} mode={mode} toggleButton={toggleButton} 
     handleStartCaptureClick={handleStartCaptureClick} handleStopCaptureClick={handleStopCaptureClick} handleDownload={handleDownload} capturing={capturing} />
 

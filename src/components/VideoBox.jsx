@@ -6,7 +6,7 @@ const VideoBox = ({webcamRef, capturing ,handleStopCaptureClick, handleStartCapt
   
   return (
     <>
-      <Webcam audio={true} ref={webcamRef} />
+      <Webcam muted={true} audio={true} ref={webcamRef} />
       {/* {capturing ? (
         <button onClick={handleStopCaptureClick}>Stop Capture</button>
       ) : (
