@@ -6,8 +6,9 @@ import App from './App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <React.StrictMode>
-    <div >
+  <div >
+  {/* <React.StrictMode> */}
+   
     <div style={{display:"flex",flexDirection:"column",margin:"5px"}}>
     <svg style={{marginTop:"5px"}} width="260" height="40" viewBox="0 0 260 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clipPath="url(#clip0_54_27)">
@@ -32,8 +33,9 @@ root.render(
 </svg>
 </div>
     <App/>
-    </div>
-  </React.StrictMode>
+    
+  {/* </React.StrictMode> */}
+  </div> 
 );
 
 // If you want to start measuring performance in your app, pass a function

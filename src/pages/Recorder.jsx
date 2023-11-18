@@ -3,13 +3,13 @@ import {useAudioRecorder} from 'react-audio-voice-recorder'
 import RecordButtonGrid from '../components/RecordButtonGrid'
 import BigGreyBox from '../components/BigGreyBox'
 import BigRecordBox from '../components/BigRecordBox'
-
-const Recorder = () => {
+import localforage from"localforage"
+const Recorder = ({blobCount,setBlobCount}) => {
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
-
+  
   const handleDataAvailable = useCallback(
     ({ data }) => {
       console.log("data",data)
@@ -20,12 +20,30 @@ const Recorder = () => {
     ,
     [setRecordedChunks]
   );
+  
+  const StoreVideo=useCallback(()=>{
+    if (recordedChunks.length) {
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm"
+      });
+      testAddBlob(blob)
+  }
+  },[recordedChunks])
+ 
 
-  const handleStopCaptureClick = useCallback(() => {
+  /* const handleStopCaptureClick = useCallback(() => {
     //mediaRecorderRef.current.requestData()
     mediaRecorderRef.current.stop();
     setCapturing(false);
-  }, [mediaRecorderRef, setCapturing]);
+  }, [mediaRecorderRef, setCapturing]); */
+  const handleStopCaptureClick = () => {
+    //mediaRecorderRef.current.requestData()
+    mediaRecorderRef.current.stop();
+    setCapturing(false);
+    /* StoreAndDisplay() */
+  }
+
+  
 
   const handleStartCaptureClick = useCallback(() => {
     setCapturing(true);
@@ -44,23 +62,64 @@ const Recorder = () => {
   }, [webcamRef, setCapturing, mediaRecorderRef,handleDataAvailable,handleStopCaptureClick]);
 
   
+  const testAddBlob=async(blob)=>{
+    try {
+      const keys = await localforage.keys()
+      const strLast=String(keys.length)
+      const value = await localforage.setItem(strLast,blob);
+      console.log("added data")
+      setBlobCount(keys.length);
+      // This code runs once the value has been loaded
+      // from the offline store.
+      console.log(value);
+  } catch (err) {
+      // This code runs if there were any errors.
+      console.log(err);
+  }
+  }
 
   const addVideoElement = useCallback(()=>{
-    console.log("cliccked video add")
-    if (recordedChunks.length) {
+    /* if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm"
       });
-      const url = URL.createObjectURL(blob);
+      testAddBlob(blob) */
+      //
+      document.getElementById("audioList").textContent="";
+      localforage.iterate(function(value, key, iterationNumber) {
+      console.log(value.type)
+      const url = URL.createObjectURL(value);
       const video = document.createElement("video")
-      //video.src=url;
+      const sour=document.createElement("source")
+      sour.src=url
+      if(value.type.includes("video")){
+        video.height=300
+        video.width=400}
+      else if(value.type.includes("audio")){
+        video.height=90
+        video.width=400}
+      
+      video.appendChild(sour)
+      video.controls=true;
+      
+      document.getElementById("audioList").appendChild(video);
+        console.log([key, value]);
+    }).then(function() {
+        console.log('Iteration has completed');
+    }).catch(function(err) {
+        // This code runs if there were any errors
+        console.log(err);
+    });
+      //
+
+      /* const url = URL.createObjectURL(blob);
+      const video = document.createElement("video")
       const sour=document.createElement("source")
       sour.src=url
       video.appendChild(sour)
       video.controls=true;
-      document.getElementById("audioList").appendChild(video);
-  }},[recordedChunks])
-
+      document.getElementById("audioList").appendChild(video); */
+  },[])
 
  
 
@@ -107,16 +166,18 @@ const Recorder = () => {
   }
   const stop=()=>{
     stopRecording()
+    //console.log(recordingBlob.type)
+    //testAddBlob(recordingBlob)
     //addAudioElement(recordingBlob)
   }
 
-  const addAudioElement = (blob) => {
+  /* const addAudioElement = (blob) => {
     const url = URL.createObjectURL(blob);
     const audio = document.createElement("audio");
     audio.src = url;
     audio.controls = true;
     document.getElementById("audioList").appendChild(audio);
-  };
+  }; */
 
   const downloadAudio=()=>{
     const downloadBlob=recordingBlob;
@@ -131,17 +192,21 @@ const Recorder = () => {
   }
 
   useEffect(()=>{
-    if(recordedChunks.length>0) 
+    StoreVideo()
+    /* if(recordedChunks.length>0) 
     {
       console.log(recordedChunks.length,"recorded chunks length inside useeffect")
       addVideoElement()
-    }
+    } */
     if (!recordingBlob){ return }
-    else {addAudioElement(recordingBlob)}
-  },[recordingBlob,mediaRecorderRef,addVideoElement,recordedChunks.length])
+    else {testAddBlob(recordingBlob)}
+  },[recordingBlob,mediaRecorderRef,addVideoElement,recordedChunks.length,StoreVideo])
+
+  /* useEffect(()=>{
+    addVideoElement()
+  },[blobCount,addVideoElement]) */
   return (
     <div style={{display:"flex"}}>
-      <button id='add' style={{display:'none'}} onClick={()=>addVideoElement()}>addddddddd</button>
     <RecordButtonGrid isRecording={isRecording} isPaused={isPaused} toggle={toggle} stop={stop} downloadAudio={downloadAudio} recordingBlob={recordingBlob} mode={mode} toggleButton={toggleButton} 
     handleStartCaptureClick={handleStartCaptureClick} handleStopCaptureClick={handleStopCaptureClick} handleDownload={handleDownload} capturing={capturing} />
 
@@ -149,7 +214,7 @@ const Recorder = () => {
      webcamRef={webcamRef} capturing={capturing} handleStopCaptureClick={handleStopCaptureClick} handleStartCaptureClick={handleStartCaptureClick} recordedChunks={recordedChunks} handleDownload={handleDownload} />
     {/* <button onClick={()=>{console.log(recordingBlob)}} >check if recordingBlob Present  </button>
     <button onClick={()=>{console.log(isPaused)}} >check if paused </button> */}
-    <BigGreyBox/>
+    <BigGreyBox blobCount={blobCount} />
     </div>
   )
 }

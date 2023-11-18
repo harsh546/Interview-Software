@@ -1,4 +1,4 @@
-import React from 'react'
+/* import React from 'react'
 import MicNoneIcon from '@mui/icons-material/MicNone';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import IconButonUpload from '../components/IconButonUpload';
@@ -23,6 +23,52 @@ const Transcriber = () => {
         </div>
         </div>
     </div>
+  )
+}
+
+export default Transcriber */
+import React from 'react'
+import AddIcon from '@mui/icons-material/Add';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
+import IconButonUpload from '../components/IconButonUpload';
+import TextBox from '../components/TextBox';
+import BigGreyBox from '../components/BigGreyBox';
+import { IconButton } from '@mui/material';
+import raw from './colgate.txt'
+const iconStyle={
+  color:"white",height:"150px",width:"150px",boxShadow:"0px 0px 10px 3px white",border:"black",backgroundColor:"black",borderStyle:"solid",borderRadius:"100px"
+}
+
+const Transcriber = ({blobCount}) => {
+
+  const putText=()=>{
+    fetch(raw)
+    .then((r) => r.text())
+    .then(text  => {
+      const textBox= document.getElementById('textBox');
+      textBox.value =text
+    }) 
+  }
+
+  return (
+    
+        <div  style={{display:"flex",justifyContent:"space-between",alignItems:"center",paddingLeft:"10px",paddingRight:"10px"}}>
+        {/* <div style={{borderStyle:"solid",height:"390px",width:"400Px",backgroundColor:"#140F0F"}}>
+           <h1>TEXT</h1>
+        </div> */}
+        <TextBox/>
+        <div>
+          
+        <IconButton onClick={()=>putText()} ><AddIcon sx={iconStyle} /></IconButton>
+       {/*  <IconButonUpload format={"image/*"}   height={"200px"} width={"200px"} component={<AddIcon sx={iconStyle} />} /> */}
+        
+        </div>
+        {/* <div id='audioList' style={{ height:"60vh",width:"30vw", backgroundColor:"#140F0F"}}>
+
+        </div> */}
+        <BigGreyBox width={"514.713px"} blobCount={blobCount} />
+        
+        </div>
   )
 }
 
