@@ -27,7 +27,7 @@ const Transcriber = () => {
 }
 
 export default Transcriber */
-import React from 'react'
+import React, { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import IconButonUpload from '../components/IconButonUpload';
@@ -40,6 +40,7 @@ const iconStyle={
 }
 
 const Transcriber = ({blobCount}) => {
+  const[textBoxContent,setTextBoxContent]=useState('');
 
   const putText=()=>{
     fetch(raw)
@@ -47,6 +48,7 @@ const Transcriber = ({blobCount}) => {
     .then(text  => {
       const textBox= document.getElementById('textBox');
       textBox.value =text
+      setTextBoxContent(text)
     }) 
   }
 
@@ -56,9 +58,11 @@ const Transcriber = ({blobCount}) => {
         {/* <div style={{borderStyle:"solid",height:"390px",width:"400Px",backgroundColor:"#140F0F"}}>
            <h1>TEXT</h1>
         </div> */}
-        <TextBox/>
         <div>
-          
+        <TextBox setTextBoxContent={setTextBoxContent}/>
+        <button onClick={() => {navigator.clipboard.writeText(textBoxContent)}} >copy text to clipboard</button>
+        </div>
+        <div>
         <IconButton onClick={()=>putText()} ><AddIcon sx={iconStyle} /></IconButton>
        {/*  <IconButonUpload format={"image/*"}   height={"200px"} width={"200px"} component={<AddIcon sx={iconStyle} />} /> */}
         
