@@ -29,14 +29,15 @@ const Transcriber = () => {
 export default Transcriber */
 import React, { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
-import VideoCallIcon from '@mui/icons-material/VideoCall';
-import IconButonUpload from '../components/IconButonUpload';
 import TextBox from '../components/TextBox';
 import BigGreyBox from '../components/BigGreyBox';
 import { IconButton } from '@mui/material';
 import raw from './colgate.txt'
 const iconStyle={
   color:"white",height:"150px",width:"150px",boxShadow:"0px 0px 10px 3px white",border:"black",backgroundColor:"black",borderStyle:"solid",borderRadius:"100px"
+}
+const ButtonStyle={
+  color:"white",height:"27px",width:"271px",boxShadow:"0px 0px 5px 3px white",border:"black",backgroundColor:"black",borderStyle:"solid",borderRadius:"10px"
 }
 
 const Transcriber = ({blobCount}) => {
@@ -60,7 +61,7 @@ const Transcriber = ({blobCount}) => {
         </div> */}
         <div>
         <TextBox setTextBoxContent={setTextBoxContent}/>
-        <button onClick={() => {navigator.clipboard.writeText(textBoxContent)}} >copy text to clipboard</button>
+        <IconButton style={{color:"white"}} onClick={() => {navigator.clipboard.writeText(textBoxContent)}}><h4 style={ButtonStyle}>copy text to clipboard</h4></IconButton>
         </div>
         <div>
         <IconButton onClick={()=>putText()} ><AddIcon sx={iconStyle} /></IconButton>

@@ -144,7 +144,7 @@ const Recorder = ({blobCount,setBlobCount}) => {
   //below code for audio
   const[mode,setMode]=useState("audio")
   const toggleButton=()=>{
-    if (mode=="audio") {
+    if (mode==="audio") {
       setMode("video")
     }else{
       setMode("audio")
@@ -156,9 +156,7 @@ const Recorder = ({blobCount,setBlobCount}) => {
     togglePauseResume,
     recordingBlob,
     isRecording,
-    isPaused,
-    recordingTime,
-    mediaRecorder
+    isPaused
   } = useAudioRecorder();
   
   const toggle=()=>{

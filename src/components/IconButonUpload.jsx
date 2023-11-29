@@ -16,6 +16,7 @@ const IconButonUpload = ({component,height,width,format,handleFileInput}) => {
         {component}
         </button> */}
         
+
         <IconButton style={{color:"white"}} onClick={()=>{uploadVideo()}}>
           <input  onChangeCapture={(e)=>handleFileInput(e)}  accept={`${formatt}`}  hidden type="file" name="" id="selectVideo" />              
           
