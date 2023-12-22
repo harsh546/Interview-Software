@@ -7,6 +7,40 @@ const Analyzer = () => {
   const[textBoxContent,setTextBoxContent]=useState('');
   const[wordCloudImageNeg,setWordCloudImageNeg]=useState()
   const[wordCloudImagePos,setWordCloudImagePos]=useState()
+  const[sentimentImagePos,setSentimentImagePos]=useState()
+  const[dataView,setDataView]=useState()
+  
+  const sentiment=()=>{
+    if(textBoxContent.trim()===""){
+      alert("no text found")
+      return
+    }
+    else{
+      const formData = new FormData();
+    formData.append('file', new Blob([textBoxContent], { type: 'text/plain' }), 'file.txt');
+    axios.post('http://127.0.0.1:5000/api/plot', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }).then(response => {
+      setDataView("sentiment")
+      const sentimentUrl = response.data.plot;
+      
+
+      // Decode the base64-encoded URL
+      setSentimentImagePos(sentimentUrl)
+    }).catch(error => {
+      console.error('Error sending data to server:', error);
+    });
+    }
+  }
+  
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    maxContentLength: Infinity, // Set maxContentLength to infinity
+  };
   const wordcloud=()=>{
     if(textBoxContent.trim()===""){
       alert("no text found")
@@ -16,22 +50,16 @@ const Analyzer = () => {
       const formData = new FormData();
     formData.append('file', new Blob([textBoxContent], { type: 'text/plain' }), 'file.txt');
     axios.all([
-      axios.post('http://127.0.0.1:5000/api/convert/pos', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }),
-    axios.post('http://127.0.0.1:5000/api/convert/neg', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    axios.post('http://127.0.0.1:5000/api/convert/pos', formData, axiosConfig),
+    axios.post('http://127.0.0.1:5000/api/convert/neg', formData, axiosConfig)
     ]).then(axios.spread((posData,negData)=> {
+      setDataView("wordcloud")
       const wordCloudUrlPos = posData.data.wordcloud_url;
       const wordCloudUrlNeg = negData.data.wordcloud_url;
       // Decode the base64-encoded URL
       setWordCloudImageNeg(wordCloudUrlPos)
       setWordCloudImagePos(wordCloudUrlNeg)
+      console.log(wordCloudImagePos)
     }) ).catch(error => {
       console.error('Error sending data to server:', error);
     });
@@ -68,7 +96,7 @@ const Analyzer = () => {
         {/* <TextButton content={"Upload Text File"} clickFunc={()=> {return 0}} /> */}
         <IconButonUpload  component={"Upload Text File"} handleFileInput={handleFileInput}  />
       </div>
-        <AnalyzeBox wordCloudImageNeg={wordCloudImageNeg} wordCloudImagePos={wordCloudImagePos} wordcloud={wordcloud} />
+        <AnalyzeBox wordCloudImageNeg={wordCloudImageNeg} wordCloudImagePos={wordCloudImagePos} wordcloud={wordcloud} sentiment={sentiment} sentimentImagePos={sentimentImagePos} dataView={dataView} />
     </div>
   )
 }

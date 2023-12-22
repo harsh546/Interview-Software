@@ -33,6 +33,9 @@ import TextBox from '../components/TextBox';
 import BigGreyBox from '../components/BigGreyBox';
 import { IconButton } from '@mui/material';
 import raw from './colgate.txt'
+import axios from 'axios';
+import IconButonUpload from '../components/IconButonUpload';
+import { waveform } from 'ldrs'
 const iconStyle={
   color:"white",height:"150px",width:"150px",boxShadow:"0px 0px 10px 3px white",border:"black",backgroundColor:"black",borderStyle:"solid",borderRadius:"100px"
 }
@@ -41,7 +44,9 @@ const ButtonStyle={
 }
 
 const Transcriber = ({blobCount}) => {
-  const[textBoxContent,setTextBoxContent]=useState('');
+  const[textBoxContent,setTextBoxContent]=useState();
+  const[audioFile,setAudioFile]=useState();
+  const[loading,setLoading]=useState(false);
 
   const putText=()=>{
     fetch(raw)
@@ -52,6 +57,31 @@ const Transcriber = ({blobCount}) => {
       setTextBoxContent(text)
     }) 
   }
+  waveform.register()
+  const handleFileInput=async(event)=>{
+    const selectedFile =event.target.files[0];
+    if(selectedFile){
+      try {
+        const formData = new FormData();
+        formData.append('audio', selectedFile);
+        setLoading(true)
+        const response = await axios.post('http://127.0.0.1:5000/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        // Handle successful response
+        console.log(response.data);
+          setTextBoxContent(response.data)
+          setLoading(false)
+      } catch (error) {
+        // Handle errors
+        console.error(error);
+        setLoading(false)
+      }
+    }
+  }
 
   return (
     
@@ -60,11 +90,16 @@ const Transcriber = ({blobCount}) => {
            <h1>TEXT</h1>
         </div> */}
         <div>
-        <TextBox setTextBoxContent={setTextBoxContent}/>
+        <TextBox setTextBoxContent={setTextBoxContent} textBoxContent={textBoxContent} />
         <IconButton style={{color:"white"}} onClick={() => {navigator.clipboard.writeText(textBoxContent)}}><h4 style={ButtonStyle}>copy text to clipboard</h4></IconButton>
         </div>
         <div>
-        <IconButton onClick={()=>putText()} ><AddIcon sx={iconStyle} /></IconButton>
+          {loading==false&&
+        <IconButonUpload  component={<AddIcon sx={iconStyle} />}  handleFileInput={handleFileInput}  />
+      }
+      {loading==true&&
+      <l-waveform size="200"stroke="5"speed="1" color="white" >heloo???</l-waveform>
+    }
        {/*  <IconButonUpload format={"image/*"}   height={"200px"} width={"200px"} component={<AddIcon sx={iconStyle} />} /> */}
         
         </div>
